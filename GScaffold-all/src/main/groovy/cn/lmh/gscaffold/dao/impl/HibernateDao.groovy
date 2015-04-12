@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 
 import cn.lmh.gscaffold.dao.IDao;
 
-public abstract class BaseDao<T> implements IDao<T>{
+public abstract class HibernateDao<T> implements IDao<T>{
 	private Class<T> clazz = (Class<T>)((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	
 	@Resource(name="sessionFactory")
