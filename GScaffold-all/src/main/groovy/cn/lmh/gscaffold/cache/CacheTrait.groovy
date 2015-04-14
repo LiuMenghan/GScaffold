@@ -30,7 +30,7 @@ trait CacheTrait {
 	public boolean put(String key, def value, String prefix, String suffix){
 		String _value = value instanceof String ?
 			(String) value : JsonUtil.obj2json(value);
-		return directPut("${prefix}.${key}.${suffix}", _value, cacheTimeSeconds);
+		return directPut("${prefix}${key}${suffix}", _value, cacheTimeSeconds);
 		
 	}
 	
@@ -43,7 +43,7 @@ trait CacheTrait {
 	}
 	
 	public def get(String key, String prefix, String suffix){
-		String _value = directGet("${prefix}.${key}.${suffix}");
+		String _value = directGet("${prefix}${key}${suffix}");
 		try{
 			return JsonUtil.json2obj(_value);
 		}catch(Exception e){
@@ -52,15 +52,15 @@ trait CacheTrait {
 	}
 	
 	public boolean remove(String key){
-		return directRemove("${prefix}.${key}.${suffix}");
+		return directRemove("${prefix}${key}${suffix}");
 	}
 	
 	public boolean remove(String key, String prefix){
-		return directRemove("${prefix}.${key}.${suffix}");
+		return directRemove("${prefix}${key}${suffix}");
 	}
 	
 	public boolean remove(String key, String prefix, String suffix){
-		return directRemove("${prefix}.${key}.${suffix}");
+		return directRemove("${prefix}${key}${suffix}");
 	}
 	
 }
