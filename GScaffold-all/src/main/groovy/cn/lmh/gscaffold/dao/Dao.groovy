@@ -1,8 +1,13 @@
 package cn.lmh.gscaffold.dao;
 
 import java.io.Serializable;
-
-public interface IDao<T> {
+/**
+ * Dao interface
+ * @author Liu Menghan
+ *
+ * @param <T>
+ */
+public interface Dao<T> {
 	public Serializable add(T o);
 	
 	public void update(T o);

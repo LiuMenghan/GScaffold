@@ -1,9 +1,13 @@
 package cn.lmh.gscaffold.web
 
 import groovy.transform.CompileStatic;
-
+/**
+ * Restful Service Response
+ * @author Liu Menghan
+ *
+ */
 @CompileStatic
-trait ResponseTrait {
+trait Response {
 	
 	private static final int SUCCESS = 0;
 	

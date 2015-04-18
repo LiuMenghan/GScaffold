@@ -8,9 +8,14 @@ import javax.annotation.Resource;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import cn.lmh.gscaffold.dao.IDao;
-
-public abstract class HibernateDao<T> implements IDao<T>{
+import cn.lmh.gscaffold.dao.Dao;
+/**
+ * Implement Dao interface with Hibernate.
+ * @author Liu Menghan
+ *
+ * @param <T>
+ */
+public abstract class HibernateDao<T> implements Dao<T>{
 	private Class<T> clazz = (Class<T>)((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	
 	@Resource(name="sessionFactory")
