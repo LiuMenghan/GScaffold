@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Zookeeper Configuration</title>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		
+	<script src="http://cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+	
+<script>
+	var rootApp = angular.module('rootApp', []);
+	rootApp.controller('zookeeperController', function($scope, $http) {
+		$scope.path = "/test";
+		$scope.query = function(path){
+			$http.get("/api/zookeeper" + path).success(function(result){
+				if(0 == result.errno){
+					$scope.content = result.data;
+				}
+			});
+		};
+		
+		$scope.save = function(path, content){
+			$http.put("/api/zookeeper" + path, { "data" : $scope.content}).success(function(result){
+				if(0 == result.errno){
+					alert("保存成功!");
+				}
+			});
+		}
+	});
+</script>
+
+</head>
+<body class="global" lang="zh-cn" ng-app="rootApp">
+
+<div ng-controller="zookeeperController">
+	<div>
+		<span>Path</span><input id="path" ng-model="path"/>
+		<button id="query" ng-click="query(path)">查询</button>
+		<button id="save" ng-click="save(path, content)">保存</button>
+	</div>
+	<div>
+		<textarea id="content" ng-model="content" ></textarea>
+	</div>
+</div
+
+</body>
+</script>
+
+</html>

@@ -1,0 +1,38 @@
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+repositories {
+	//Use oschina maven repository instead of maven central repository where you are in China.
+	maven { url "http://maven.oschina.net/content/groups/public/" }
+	//mavenCentral()
+}
+
+dependencies {
+	compile 'commons-codec:commons-codec:1.9'
+	compile 'net.sf.ehcache:ehcache:2.9.1'
+	compile "org.springframework:spring-web:${spring.version}"
+	compile "org.springframework:spring-webmvc:${spring.version}"
+	compile "org.springframework:spring-orm:${spring.version}"
+	compile 'org.apache.curator:curator-framework:2.+'
+	compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
+	compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+	
+	testCompile 'junit:junit:4.11'
+	testCompile 'org.springframework:spring-test:4.1.6.RELEASE'
+
+	runtime 'javax.servlet:javax.servlet-api:3.0.1'
+	runtime 'org.hibernate:hibernate-entitymanager:4.1.12.Final'
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: localMavenRepoDir)
+			pom.groupId = groupId
+			pom.artifactId = 'gscaffold-core'
+			pom.version = projectVersion
+		}
+	}
+}

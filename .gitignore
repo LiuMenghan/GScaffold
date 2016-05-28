@@ -1,5 +1,9 @@
-.metadata/
-/GScaffold-config/
-/GScaffold-config-example/
-/affold-data/
-/demo/
+.metadata
+.settings
+.gradle
+target
+logs
+build
+*.project
+*.classpath
+bin
