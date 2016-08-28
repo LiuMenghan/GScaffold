@@ -1,3 +1,12 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
+	}
+}
 allprojects{
 	
 	ext{
@@ -5,13 +14,13 @@ allprojects{
 		groupId = "cn.lmh"
 		projectVersion = "0.0.1"
 		spring = [
-			version : "4.2.4.RELEASE",
+			version : "4.2.6.RELEASE",
 			boot : [
-				version : "1.3.1.RELEASE"
+				version : "1.3.5.RELEASE"
 			]
 		];
 		
-		log4jVersion = "2.5";
+		log4jVersion = "2.4.1";
 	}
 }
 
@@ -22,7 +31,7 @@ subprojects {
 	
 	repositories {
 		//Use oschina maven repository instead of maven central repository where you are in China.
-		maven { url "http://192.168.1.2:8081/nexus/groups/public/" }
+		maven { url "http://192.168.1.101:8081/nexus/groups/public/" }
 		//mavenCentral()
 	};
 
@@ -32,8 +41,9 @@ subprojects {
 	
 	dependencies {
 		compile 'org.codehaus.groovy:groovy-all:2.3.10'
+		compile 'org.apache.commons:commons-lang3:3.4'
+		
 		compile "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}"
 		compile "org.apache.logging.log4j:log4j-core:${log4jVersion}"
-		compile 'org.apache.commons:commons-lang3:3.4'
 	}
 }

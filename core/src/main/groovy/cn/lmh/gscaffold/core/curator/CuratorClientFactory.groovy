@@ -9,7 +9,10 @@ import org.apache.curator.RetryPolicy
 import org.apache.curator.framework.CuratorFramework
 import org.apache.curator.framework.CuratorFrameworkFactory
 import org.apache.curator.retry.ExponentialBackoffRetry
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.FactoryBean
+import org.springframework.core.PriorityOrdered;
 /**
  * 
  * @author Liu Menghan
@@ -17,7 +20,8 @@ import org.springframework.beans.factory.FactoryBean
  *
  */
 @CompileStatic
-public class CuratorClientFactory implements FactoryBean<CuratorFramework> {
+public class CuratorClientFactory implements FactoryBean<CuratorFramework>, PriorityOrdered {
+	Logger logger = LoggerFactory.getLogger(this.class);
 	int baseSleepTimeMs;
 	int maxRetries;
 	String connectionString;
@@ -26,8 +30,16 @@ public class CuratorClientFactory implements FactoryBean<CuratorFramework> {
 
 	private CuratorFramework curator;
 	
+	@Override
+	public int getOrder() {
+		return Integer.MAX_VALUE - 1024;
+	}
+	
 	@PostConstruct
 	private void init(){
+		if(null != this.curator){
+			return;
+		}
 		// these are reasonable arguments for the ExponentialBackoffRetry. The first
 		// retry will wait 1 second - the second will wait up to 2 seconds - the
 		// third will wait up to 4 seconds.;
@@ -42,6 +54,7 @@ public class CuratorClientFactory implements FactoryBean<CuratorFramework> {
 			.build();
 		
 		this.curator.start();
+		logger.debug("CuratorClient started");
 	}
 	
 	@PreDestroy
@@ -59,7 +72,10 @@ public class CuratorClientFactory implements FactoryBean<CuratorFramework> {
 	}
 	
 	@Override
-	public CuratorFramework getObject() throws Exception {		
+	public CuratorFramework getObject() throws Exception {	
+		if(null == this.curator){
+			this.init();
+		}
 		return this.curator
 	}
 }

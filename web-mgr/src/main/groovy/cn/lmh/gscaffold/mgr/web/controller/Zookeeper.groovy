@@ -18,7 +18,7 @@ import cn.lmh.gscaffold.web.RestfulResponse
 
 @RestController
 @CompileStatic
-@RequestMapping("/api/zookeeper/**")
+@RequestMapping("/api/mgr/zookeeper/**")
 class Zookeeper {
 	Logger logger = LoggerFactory.getLogger(this.class);
 	
@@ -28,8 +28,8 @@ class Zookeeper {
 	@RequestMapping(method = RequestMethod.GET)
 	public def get(HttpServletRequest request){
 		String path = this.getPath(request);
-		String data = service.get(path);
 		logger.debug(path);
+		String data = service.get(path);
 		return new ZookeeperGetResult(data : data);
 	}
 	
@@ -42,7 +42,7 @@ class Zookeeper {
 	}
 	
 	private String getPath(HttpServletRequest request){
-		request.getRequestURI().substring('"/api/zookeeper/'.length() - 2);
+		request.getRequestURI().substring('/api/mgr/zookeeper/'.length() - 1);
 	}
 }
 

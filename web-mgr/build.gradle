@@ -1,26 +1,35 @@
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
+apply plugin: 'spring-boot'
 
 repositories {
 	//Use oschina maven repository instead of maven central repository where you are in China.
-	maven { url "http://maven.oschina.net/content/groups/public/" }
-	//mavenCentral()
+	//maven { url "http://maven.oschina.net/content/groups/public/" }
+	mavenCentral()
 }
 
 configurations {
 	compile.exclude module: 'hibernate-entitymanager'
+	compile.exclude module: 'log4j:log4j'
 }
 
+jar{
+	baseName = 'web-mgr'
+}
 dependencies {
 	compile(project(':core'))
 	
-	compile("org.springframework.boot:spring-boot-starter:${spring.boot.version}")
-	compile "org.springframework.boot:spring-boot-starter-jetty:${spring.boot.version}"
-	testCompile 'junit:junit:4.11'
-	testCompile 'org.springframework:spring-test:{spring.version}'
-
-	runtime 'javax.servlet:javax.servlet-api:3.0.1'
+	compile (group:'org.springframework.boot', name:'spring-boot-starter-web', version:"${spring.boot.version}"){
+		exclude group:'org.springframework.boot', module:'spring-boot-starter-tomcat'
+		exclude group:'org.springframework.boot', module:'spring-boot-starter-logging'
+	}
+	compile (group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: "${spring.boot.version}")
+	compile group:'org.springframework.boot', name:'spring-boot-starter-jetty', version:"${spring.boot.version}"
+	testCompile 'junit:junit'
+	testCompile 'org.springframework:spring-test'
+	
+	runtime 'org.hibernate:hibernate-entitymanager:4.1.12.Final'
 }
 
 uploadArchives {
@@ -28,8 +37,16 @@ uploadArchives {
 		mavenDeployer {
 			repository(url: localMavenRepoDir)
 			pom.groupId = groupId
-			pom.artifactId = 'gscaffold-war'
+			pom.artifactId = 'gscaffold-mgr'
 			pom.version = projectVersion
 		}
 	}
+}
+
+task writeNewPom << {
+	pom {
+		groupId = groupId
+		artifactId = 'gscaffold-mgr'
+		version = projectVersion
+	}.writeTo("pom.xml")
 }

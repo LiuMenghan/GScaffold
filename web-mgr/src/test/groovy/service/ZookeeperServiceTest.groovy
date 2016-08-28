@@ -15,7 +15,7 @@ import cn.lmh.gscaffold.mgr.service.ZookeeperService
 @ContextConfiguration(locations="classpath:applicationContext.xml")
 @CompileStatic
 public class ZookeeperServiceTest {
-	@Resource(name="gscaffold.mgr.service.zookeeper")
+	@Resource(name="service.zookeeper")
 	ZookeeperService service;
 	
 	String path = "/zookeeper/test";

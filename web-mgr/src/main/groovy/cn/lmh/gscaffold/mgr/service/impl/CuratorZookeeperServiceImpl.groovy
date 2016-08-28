@@ -1,7 +1,9 @@
 package cn.lmh.gscaffold.mgr.service.impl;
 
 import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
 
+import java.nio.charset.Charset
 import javax.annotation.Resource
 
 import org.apache.curator.framework.CuratorFramework
@@ -11,12 +13,12 @@ import cn.lmh.gscaffold.mgr.service.ZookeeperService
 
 import org.apache.zookeeper.data.Stat;
 
-@CompileStatic
+@CompileStatic(TypeCheckingMode.SKIP)
 @Service("service.zookeeper")
 public class CuratorZookeeperServiceImpl implements ZookeeperService {
 	@Resource(name="curator")
 	CuratorFramework curator; 
-	String charset = "UTF-8";
+	Charset charset = Charset.forName("UTF-8");
 	
 	public void set(String path, String data){
 		if(null == this.exists(path)){
@@ -28,7 +30,8 @@ public class CuratorZookeeperServiceImpl implements ZookeeperService {
 	
 	@Override
 	public String get(String path){
-		return new String(this.curator.getData().forPath(path), this.charset);
+		byte[] value = this.curator.getData().forPath(path);
+		return new String(value, this.charset);
 	}
 
 	@Override
